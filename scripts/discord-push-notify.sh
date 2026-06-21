@@ -21,42 +21,44 @@ AUTHOR=$(git -C "$ROOT_DIR" config user.name 2>/dev/null || echo "unknown")
 REPO=$(basename "$ROOT_DIR")
 MEMO="${1:-}"
 
-# 최근 커밋 5개를 한 줄씩 수집
-COMMIT_LINES=""
-while IFS= read -r line; do
-  COMMIT_LINES="${COMMIT_LINES}• ${line}\n"
-done < <(git -C "$ROOT_DIR" log --oneline -5 2>/dev/null)
+# 최근 커밋 5개
+COMMITS=$(git -C "$ROOT_DIR" log --oneline -5 2>/dev/null | while IFS= read -r line; do echo "• $line"; done)
 
-# 메모 필드 (입력 없으면 생략)
-MEMO_FIELD=""
+# jq로 JSON 안전하게 생성
+FIELDS=$(jq -n \
+  --arg branch "$BRANCH" \
+  --arg author "$AUTHOR" \
+  --arg commits "$COMMITS" \
+  '[
+    {"name": "브랜치", "value": ("`" + $branch + "`"), "inline": true},
+    {"name": "작성자", "value": $author, "inline": true},
+    {"name": "최근 커밋", "value": $commits}
+  ]')
+
 if [ -n "$MEMO" ]; then
-  MEMO_FIELD=",{\"name\":\"📝 메모\",\"value\":\"${MEMO}\"}"
+  FIELDS=$(echo "$FIELDS" | jq --arg memo "$MEMO" '. + [{"name": "📝 메모", "value": $memo}]')
 fi
 
-PAYLOAD=$(printf '{
-  "embeds": [{
-    "title": "🚀 Push — %s",
-    "color": 5763719,
-    "fields": [
-      {"name": "브랜치", "value": "`%s`", "inline": true},
-      {"name": "작성자", "value": "%s", "inline": true},
-      {"name": "최근 커밋", "value": "%s"}
-      %s
-    ],
-    "timestamp": "%s"
-  }]
-}' \
-  "$REPO" \
-  "$BRANCH" \
-  "$AUTHOR" \
-  "$(printf '%b' "$COMMIT_LINES")" \
-  "$MEMO_FIELD" \
-  "$(date -u +%Y-%m-%dT%H:%M:%SZ)")
+PAYLOAD=$(jq -n \
+  --arg repo "$REPO" \
+  --argjson fields "$FIELDS" \
+  '{
+    "embeds": [{
+      "title": ("🚀 Push — " + $repo),
+      "color": 5763719,
+      "fields": $fields,
+      "timestamp": now | todate
+    }]
+  }')
 
-curl -s -o /dev/null -w "%{http_code}" \
+HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" \
   -X POST \
   -H "Content-Type: application/json" \
   -d "$PAYLOAD" \
-  "$DISCORD_WEBHOOK_URL" | grep -q "^2" \
-  && echo "[discord-notify] ✅ 디스코드 알림 전송 완료" \
-  || echo "[discord-notify] ❌ 전송 실패 (웹훅 URL 확인 필요)"
+  "$DISCORD_WEBHOOK_URL")
+
+if [[ "$HTTP_CODE" =~ ^2 ]]; then
+  echo "[discord-notify] ✅ 디스코드 알림 전송 완료"
+else
+  echo "[discord-notify] ❌ 전송 실패 (HTTP $HTTP_CODE)"
+fi
