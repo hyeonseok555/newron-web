@@ -1,0 +1,282 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* ── Material Symbols ─────────────────────────────────────── */
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  user-select: none;
+}
+
+/* ── NEWLON 색상 토큰 (Material Design 3) ─────────────────── */
+:root {
+  /* shadcn 호환 변수 */
+  --background:              #f7fafd;
+  --foreground:              #181c1e;
+  --card:                    #ffffff;
+  --card-foreground:         #181c1e;
+  --popover:                 #ffffff;
+  --popover-foreground:      #181c1e;
+  --primary:                 #002869;
+  --primary-foreground:      #ffffff;
+  --secondary:               #0c61a1;
+  --secondary-foreground:    #ffffff;
+  --muted:                   #f1f4f7;
+  --muted-foreground:        #434651;
+  --accent:                  #78b7fd;
+  --accent-foreground:       #00487a;
+  --destructive:             #ba1a1a;
+  --border:                  #c4c6d3;
+  --input:                   #c4c6d3;
+  --ring:                    #405c9e;
+  --radius:                  0.5rem;
+  --sidebar:                 #ffffff;
+  --sidebar-foreground:      #181c1e;
+  --sidebar-primary:         #002869;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent:          #f1f4f7;
+  --sidebar-accent-foreground: #002869;
+  --sidebar-border:          #c4c6d3;
+  --sidebar-ring:            #405c9e;
+
+  /* MD3 Surface 토큰 */
+  --surface:                       #f7fafd;
+  --surface-dim:                   #d7dadd;
+  --surface-bright:                #f7fafd;
+  --surface-container-lowest:      #ffffff;
+  --surface-container-low:         #f1f4f7;
+  --surface-container:             #ebeef1;
+  --surface-container-high:        #e5e8eb;
+  --surface-container-highest:     #e0e3e6;
+  --surface-variant:               #e0e3e6;
+  --surface-tint:                  #405c9e;
+  --on-surface:                    #181c1e;
+  --on-surface-variant:            #434651;
+  --inverse-surface:               #2d3133;
+  --inverse-on-surface:            #eef1f4;
+  --on-background:                 #181c1e;
+  --outline:                       #747783;
+  --outline-variant:               #c4c6d3;
+
+  /* MD3 색상 역할 토큰 */
+  --on-primary:                    #ffffff;
+  --primary-container:             #224081;
+  --on-primary-container:          #8eadff;
+  --primary-fixed:                 #dae2ff;
+  --primary-fixed-dim:             #b1c5ff;
+  --on-primary-fixed:              #001947;
+  --on-primary-fixed-variant:      #274485;
+  --inverse-primary:               #b1c5ff;
+  --on-secondary:                  #ffffff;
+  --secondary-container:           #78b7fd;
+  --on-secondary-container:        #00487a;
+  --secondary-fixed:               #d1e4ff;
+  --secondary-fixed-dim:           #9ecaff;
+  --on-secondary-fixed:            #001d36;
+  --on-secondary-fixed-variant:    #00497d;
+  --tertiary:                      #1f3200;
+  --on-tertiary:                   #ffffff;
+  --tertiary-container:            #304a00;
+  --on-tertiary-container:         #89bf29;
+  --tertiary-fixed:                #baf55b;
+  --tertiary-fixed-dim:            #9fd840;
+  --on-tertiary-fixed:             #121f00;
+  --on-tertiary-fixed-variant:     #344e00;
+  --error:                         #ba1a1a;
+  --on-error:                      #ffffff;
+  --error-container:               #ffdad6;
+  --on-error-container:            #93000a;
+}
+
+/* 다크모드는 .dark 클래스로만 활성화 (시스템 설정 자동 감지 비활성) */
+
+.dark {
+  --background:             #181c1e;
+  --foreground:             #eef1f4;
+  --card:                   #2d3133;
+  --card-foreground:        #eef1f4;
+  --primary:                #b1c5ff;
+  --primary-foreground:     #001947;
+  --secondary:              #9ecaff;
+  --secondary-foreground:   #001d36;
+  --muted:                  #2d3133;
+  --muted-foreground:       #c4c6d3;
+  --border:                 #434651;
+  --input:                  #434651;
+  --ring:                   #b1c5ff;
+  --on-surface:             #eef1f4;
+  --on-surface-variant:     #c4c6d3;
+  --outline-variant:        #434651;
+  --surface-container-lowest: #0d1011;
+  --surface-container-low:  #181c1e;
+  --surface-container:      #1d2125;
+  --surface-container-high: #272c2e;
+  --surface-container-highest: #2d3133;
+}
+
+/* ── Tailwind v4 테마 연결 ────────────────────────────────── */
+@theme inline {
+  /* shadcn 변수 */
+  --color-background:                  var(--background);
+  --color-foreground:                  var(--foreground);
+  --color-card:                        var(--card);
+  --color-card-foreground:             var(--card-foreground);
+  --color-popover:                     var(--popover);
+  --color-popover-foreground:          var(--popover-foreground);
+  --color-primary:                     var(--primary);
+  --color-primary-foreground:          var(--primary-foreground);
+  --color-secondary:                   var(--secondary);
+  --color-secondary-foreground:        var(--secondary-foreground);
+  --color-muted:                       var(--muted);
+  --color-muted-foreground:            var(--muted-foreground);
+  --color-accent:                      var(--accent);
+  --color-accent-foreground:           var(--accent-foreground);
+  --color-destructive:                 var(--destructive);
+  --color-border:                      var(--border);
+  --color-input:                       var(--input);
+  --color-ring:                        var(--ring);
+  --color-sidebar:                     var(--sidebar);
+  --color-sidebar-foreground:          var(--sidebar-foreground);
+  --color-sidebar-primary:             var(--sidebar-primary);
+  --color-sidebar-primary-foreground:  var(--sidebar-primary-foreground);
+  --color-sidebar-accent:              var(--sidebar-accent);
+  --color-sidebar-accent-foreground:   var(--sidebar-accent-foreground);
+  --color-sidebar-border:              var(--sidebar-border);
+  --color-sidebar-ring:                var(--sidebar-ring);
+
+  /* MD3 Surface 색상 */
+  --color-surface:                     var(--surface);
+  --color-surface-dim:                 var(--surface-dim);
+  --color-surface-container-lowest:    var(--surface-container-lowest);
+  --color-surface-container-low:       var(--surface-container-low);
+  --color-surface-container:           var(--surface-container);
+  --color-surface-container-high:      var(--surface-container-high);
+  --color-surface-container-highest:   var(--surface-container-highest);
+  --color-surface-variant:             var(--surface-variant);
+  --color-surface-tint:                var(--surface-tint);
+  --color-on-surface:                  var(--on-surface);
+  --color-on-surface-variant:          var(--on-surface-variant);
+  --color-inverse-surface:             var(--inverse-surface);
+  --color-inverse-on-surface:          var(--inverse-on-surface);
+  --color-on-background:               var(--on-background);
+  --color-outline:                     var(--outline);
+  --color-outline-variant:             var(--outline-variant);
+  --color-on-primary:                  var(--on-primary);
+  --color-primary-container:           var(--primary-container);
+  --color-on-primary-container:        var(--on-primary-container);
+  --color-primary-fixed:               var(--primary-fixed);
+  --color-primary-fixed-dim:           var(--primary-fixed-dim);
+  --color-on-primary-fixed:            var(--on-primary-fixed);
+  --color-on-primary-fixed-variant:    var(--on-primary-fixed-variant);
+  --color-inverse-primary:             var(--inverse-primary);
+  --color-on-secondary:                var(--on-secondary);
+  --color-secondary-container:         var(--secondary-container);
+  --color-on-secondary-container:      var(--on-secondary-container);
+  --color-secondary-fixed:             var(--secondary-fixed);
+  --color-secondary-fixed-dim:         var(--secondary-fixed-dim);
+  --color-on-secondary-fixed:          var(--on-secondary-fixed);
+  --color-on-secondary-fixed-variant:  var(--on-secondary-fixed-variant);
+  --color-tertiary:                    var(--tertiary);
+  --color-on-tertiary:                 var(--on-tertiary);
+  --color-tertiary-container:          var(--tertiary-container);
+  --color-on-tertiary-container:       var(--on-tertiary-container);
+  --color-tertiary-fixed:              var(--tertiary-fixed);
+  --color-tertiary-fixed-dim:          var(--tertiary-fixed-dim);
+  --color-on-tertiary-fixed:           var(--on-tertiary-fixed);
+  --color-on-tertiary-fixed-variant:   var(--on-tertiary-fixed-variant);
+  --color-error:                       var(--error);
+  --color-on-error:                    var(--on-error);
+  --color-error-container:             var(--error-container);
+  --color-on-error-container:          var(--on-error-container);
+
+  /* Spacing */
+  --spacing-stack-sm:         8px;
+  --spacing-container-margin: 20px;
+  --spacing-stack-md:         16px;
+  --spacing-stack-lg:         24px;
+  --spacing-gutter:           16px;
+  --spacing-card-padding:     20px;
+
+  /* Border Radius */
+  --radius-sm:   calc(var(--radius) * 0.6);
+  --radius-md:   calc(var(--radius) * 0.8);
+  --radius-lg:   var(--radius);
+  --radius-xl:   calc(var(--radius) * 1.5);
+  --radius-full: 9999px;
+
+  /* Font */
+  --font-sans:    "Work Sans", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-heading: "Work Sans", -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* ── 타이포그래피 유틸리티 ─────────────────────────────────── */
+@utility text-headline-lg {
+  font-size: 28px;
+  line-height: 36px;
+  letter-spacing: -0.02em;
+  font-weight: 700;
+}
+@utility text-headline-lg-mobile {
+  font-size: 22px;
+  line-height: 28px;
+  letter-spacing: -0.01em;
+  font-weight: 700;
+}
+@utility text-headline-md {
+  font-size: 20px;
+  line-height: 26px;
+  font-weight: 600;
+}
+@utility text-body-lg {
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 700;
+}
+@utility text-body-md {
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+}
+@utility text-label-md {
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 0.02em;
+  font-weight: 600;
+}
+@utility text-label-sm {
+  font-size: 11px;
+  line-height: 14px;
+  font-weight: 500;
+}
+@utility text-caption-tiny {
+  font-size: 10px;
+  line-height: 12px;
+  letter-spacing: 0.05em;
+  font-weight: 700;
+}
+
+/* ── 유틸리티 ─────────────────────────────────────────────── */
+@utility no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* ── 기본 스타일 ──────────────────────────────────────────── */
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-on-surface;
+    font-family: "Work Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .hero-gradient {
+    background: linear-gradient(180deg, rgba(0, 40, 105, 0) 0%, rgba(0, 40, 105, 0.85) 100%);
+  }
+}

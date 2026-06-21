@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl -s --max-time 5 http://121.134.239.75:3000/api/health)"
+    ]
+  }
+}
