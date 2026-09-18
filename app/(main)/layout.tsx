@@ -82,27 +82,29 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
           <div>
             <h5 className="text-headline-md text-primary mb-4">빠른 링크</h5>
             <ul className="space-y-2">
-              {["회사 소개", "편집 가이드라인", "개인정보 처리방침", "이용약관"].map((item) => (
-                <li key={item}>
-                  <a href="#" className="text-label-sm text-on-surface-variant hover:underline">
-                    {item}
-                  </a>
+              {[
+                { label: "고객지원", href: "/support" },
+                { label: "개인정보 처리방침", href: "/privacy" },
+                { label: "계정 및 데이터 삭제", href: "/account-deletion" },
+                { label: "이용약관", href: "/terms" },
+              ].map((item) => (
+                <li key={item.href}>
+                  <Link href={item.href} className="text-label-sm text-on-surface-variant hover:underline">
+                    {item.label}
+                  </Link>
                 </li>
               ))}
             </ul>
           </div>
           <div>
             <h5 className="text-headline-md text-primary mb-4">문의 및 연결</h5>
-            <div className="flex gap-4">
-              {["alternate_email", "rss_feed", "share"].map((icon) => (
-                <button
-                  key={icon}
-                  className="p-2 bg-surface-container-low rounded-full text-primary hover:bg-primary hover:text-white transition-all"
-                >
-                  <span className="material-symbols-outlined">{icon}</span>
-                </button>
-              ))}
-            </div>
+            <a
+              href="mailto:juing95@gmail.com"
+              className="p-2 bg-surface-container-low rounded-full text-primary hover:bg-primary hover:text-white transition-all inline-flex"
+              aria-label="이메일 문의"
+            >
+              <span className="material-symbols-outlined">alternate_email</span>
+            </a>
             <p className="text-label-sm text-on-surface-variant mt-stack-lg opacity-80">
               © 2026 Newron. All rights reserved.
             </p>

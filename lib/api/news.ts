@@ -72,9 +72,11 @@ export async function removeInterest(interest: string) {
 }
 
 // ── 북마크 ─────────────────────────────────────────────────
+// 참고: 이 엔드포인트만 실제 서버가 MainResponse 포맷({status,data})으로 응답함
+// (명세서상 PersResponse와 다름, 2026-07-12 실서버 확인)
 export async function fetchBookmarks(userId: string) {
-  const res = await persApi.get<PersResponse<number[]>>(`/api/v1/user/bookmark/${userId}`);
-  return res.data.result;
+  const res = await persApi.get<MainResponse<number[]>>(`/api/v1/user/bookmark/${userId}`);
+  return res.data.data;
 }
 
 export async function toggleBookmark(userId: string, newsId: number) {
@@ -99,10 +101,11 @@ export async function fetchRecentNews(userId: string) {
 }
 
 // ── 추천 ────────────────────────────────────────────────────
+// 참고: 명세서는 POST /api/v1/recommend/ 이지만 실서버는 GET /api/v1/recommend/{user_id}
+// (2026-07-12 실서버 openapi.json 확인)
 export async function fetchRecommendedNews(userId: string, limit = 10) {
-  const res = await persApi.post<PersResponse<NewsItem[]>>("/api/v1/recommend/", {
-    user_id: userId,
-    limit,
+  const res = await persApi.get<PersResponse<NewsItem[]>>(`/api/v1/recommend/${userId}`, {
+    params: { limit },
   });
   return res.data.result;
 }
